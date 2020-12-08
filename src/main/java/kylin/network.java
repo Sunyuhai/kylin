@@ -4,7 +4,6 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -71,11 +70,11 @@ public class network extends BaseServlet {
             int subnum = SubnetB(s1,s2,s3,s4);
             int n=0;
             int zu=256/subnum;
-            String save = null;
-            String sa = null;
+            String save = "";
+            String sa = "";
             for (int i = 0; i < subnum; i++) {
-                save="子网IP范围："+i1+"."+n+"."+0+"."+1+"~"+i1+"."+(n+zu-1)+"."+255+"."+254+"\n";
-                sa="广播地址："+i1+"."+(n+zu-1)+"."+255+"."+255+"\n";
+                save=save+"第"+(i+1)+"个子网IP范围："+i1+"."+n+"."+0+"."+1+"~"+i1+"."+(n+zu-1)+"."+255+"."+254+"\n";
+                sa=sa+"第"+ (i+1)+"个广播地址："+i1+"."+(n+zu-1)+"."+255+"."+255+"\n";
                 n = n+zu;
             }
             info.setZiwangIP(save);
@@ -87,11 +86,11 @@ public class network extends BaseServlet {
             int n=0;
             int zu=256/subnum;
             //定义字符串save保存所有数据
-            String sassve = null;
-            String sss= null;;
+            String sassve = "";
+            String sss= "";;
             for (int i = 0; i < subnum; i++) {
-                sassve="子网IP范围："+i1+"."+i2+"."+n+"."+1+"~"+i1+"."+i2+"."+(n+zu-1)+"."+254+"\n";
-                sss="广播地址："+i1+"."+i2+"."+(n+zu-1)+"."+255+"\n";
+                sassve=sassve+"第"+(i+1)+"个子网IP范围："+i1+"."+i2+"."+n+"."+1+"~"+i1+"."+i2+"."+(n+zu-1)+"."+254+"\n";
+                sss=sss+"第"+ (i+1)+"个广播地址："+i1+"."+i2+"."+(n+zu-1)+"."+255+"\n";
                 n = n+zu;
             }
             info.setZiwangIP(sassve);
@@ -102,11 +101,11 @@ public class network extends BaseServlet {
             int subnum = SubnetB(s1,s2,s3,s4);
             int n=1;
             //定义一个字符串来保存所有信息
-            String saasdve=null;
-            String saaaa = null;
+            String saasdve = "";
+            String saaaa = "";
             for (int i = 0; i < subnum; i++) {
-                saasdve=("子网IP范围："+i1+"."+i2+"."+i3+"."+n+"~"+(n+hostnum-1))+"\n";
-                saaaa=("广播地址是："+i1+"."+i2+"."+i3+"."+(n+hostnum))+"\n";
+                saasdve=saasdve+("第"+(i+1)+"个子网IP范围："+i1+"."+i2+"."+i3+"."+n+"~"+(n+hostnum-1))+"\n";
+                saaaa=saaaa+("第"+ (i+1)+"个广播地址是："+i1+"."+i2+"."+i3+"."+(n+hostnum))+"\n";
                 n = n+hostnum-1+3;
             }
             info.setZiwangIP(saasdve);
