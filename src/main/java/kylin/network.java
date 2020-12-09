@@ -111,11 +111,11 @@ public class network extends BaseServlet {
             info.setZiwangIP(saasdve);
             info.setGuangpodizhi(saaaa);
         }
-
         String json = writeValueToString(info);
         //使用response写回页面
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(json);
+
     }
 
 

@@ -13,6 +13,18 @@ public class ResultInfo implements Serializable {
     private String ziwangIP;
     private String guangpodizhi;
 
+    public ResultInfo() {}
+
+    public ResultInfo(boolean flag, String liebie, String ziwangshu, String youxiaoziwang, String zhujishu, String ziwangIP, String guangpodizhi) {
+        this.flag = flag;
+        this.liebie = liebie;
+        this.ziwangshu = ziwangshu;
+        this.youxiaoziwang = youxiaoziwang;
+        this.zhujishu = zhujishu;
+        this.ziwangIP = ziwangIP;
+        this.guangpodizhi = guangpodizhi;
+    }
+
     public boolean isFlag() {
         return flag;
     }
