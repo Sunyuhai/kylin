@@ -13,6 +13,7 @@ import java.util.Map;
 @WebServlet("/user/*")
 public class network extends BaseServlet {
     private ResultInfo info = new ResultInfo();
+
     public void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         info.setFlag(true);
         //获取数据
@@ -37,76 +38,82 @@ public class network extends BaseServlet {
         String s4 = ziwang[3];
         int numm = Integer.parseInt(wangluo[0]);
         //子网数的计算
-        String aString =Eight(Integer.parseInt(s1))+Eight(Integer.parseInt(s2))+Eight(Integer.parseInt(s3))+Eight(Integer.parseInt(s4));
-        int num=0;
+        String aString = Eight(Integer.parseInt(s1)) + Eight(Integer.parseInt(s2)) + Eight(Integer.parseInt(s3)) + Eight(Integer.parseInt(s4));
+        int num = 0;
         for (int i = 0; i < aString.length(); i++) {
-            if (num < 9){
-                if (aString.charAt(i)=='1') {
+            if (num < 9) {
+                if (aString.charAt(i) == '1') {
                     num++;
                 }
-            }else {
+            } else {
                 num = 1;
-                if (aString.charAt(i)=='1') {
+                if (aString.charAt(i) == '1') {
                     num++;
                 }
             }
         }
-        int ziwangshu = (int)(Math.pow(2, num));
-        info.setZiwangshu("子网数："+ ziwangshu);
+        int ziwangshu = (int) (Math.pow(2, num));
+        info.setZiwangshu("子网数：" + ziwangshu);
         //主机数的计算
-        String aString2 =Eight(Integer.parseInt(s1))+Eight(Integer.parseInt(s2))+Eight(Integer.parseInt(s3))+Eight(Integer.parseInt(s4));
+        String aString2 = Eight(Integer.parseInt(s1)) + Eight(Integer.parseInt(s2)) + Eight(Integer.parseInt(s3)) + Eight(Integer.parseInt(s4));
         int num2 = 0;
         for (int i = 0; i < aString2.length(); i++) {
-            if (aString2.charAt(i)=='1') {
+            if (aString2.charAt(i) == '1') {
                 num2++;
             }
         }
-        int zhujishu = (int)(Math.pow(2, 32-num2)-2);
-        info.setZhujishu("主机数："+zhujishu);
+        int zhujishu = (int) (Math.pow(2, 32 - num2) - 2);
+        info.setZhujishu("主机数：" + zhujishu);
 
-        if (numm > 0 && numm <= 127){
+        if (numm > 0 && numm <= 127) {
             info.setLiebie("类别：A类");
-            int hostnum = HostnumB(s1,s2,s3,s4);
-            int subnum = SubnetB(s1,s2,s3,s4);
-            int n=0;
-            int zu=256/subnum;
+            int hostnum = HostnumB(s1, s2, s3, s4);
+            int subnum = SubnetB(s1, s2, s3, s4);
+            int n = 0;
+            //获取划分子网的最后一位十进制数  比如借四位，只看当前第一个字段
+            //000（0） 1111    获取括号中对应的十进制数16
+            int zu = 256 / subnum;
             String save = "";
             String sa = "";
             for (int i = 0; i < subnum; i++) {
-                save=save+"第"+(i+1)+"个子网IP范围："+i1+"."+n+"."+0+"."+1+"~"+i1+"."+(n+zu-1)+"."+255+"."+254+"\n";
-                sa=sa+"第"+ (i+1)+"个广播地址："+i1+"."+(n+zu-1)+"."+255+"."+255+"\n";
-                n = n+zu;
+                save = save + "第" + (i + 1) + "个子网IP范围：" + i1 + "." + n + "." + 0 + "." + 1 + "~" + i1 + "." + (n + zu - 1) + "." + 255 + "." + 254 + "\n";
+                sa = sa + "第" + (i + 1) + "个广播地址：" + i1 + "." + (n + zu - 1) + "." + 255 + "." + 255 + "\n";
+                n = n + zu;
+                //获取括号前的每一个十进制数，在划分子网的时候加上
             }
             info.setZiwangIP(save);
             info.setGuangpodizhi(sa);
-        }else if (numm > 127 && numm < 192){
+        } else if (numm > 127 && numm < 192) {
             info.setLiebie("类别：B类");
-            int hostnum = HostnumB(s1,s2,s3,s4);
-            int subnum = SubnetB(s1,s2,s3,s4);
-            int n=0;
-            int zu=256/subnum;
+            int hostnum = HostnumB(s1, s2, s3, s4);
+            int subnum = SubnetB(s1, s2, s3, s4);
+            int n = 0;
+            int zu = 256 / subnum;
             //定义字符串save保存所有数据
             String sassve = "";
-            String sss= "";;
+            String sss = "";
+            ;
             for (int i = 0; i < subnum; i++) {
-                sassve=sassve+"第"+(i+1)+"个子网IP范围："+i1+"."+i2+"."+n+"."+1+"~"+i1+"."+i2+"."+(n+zu-1)+"."+254+"\n";
-                sss=sss+"第"+ (i+1)+"个广播地址："+i1+"."+i2+"."+(n+zu-1)+"."+255+"\n";
-                n = n+zu;
+                sassve = sassve + "第" + (i + 1) + "个子网IP范围：" + i1 + "." + i2 + "." + n + "." + 1 + "~" + i1 + "." + i2 + "." + (n + zu - 1) + "." + 254 + "\n";
+                sss = sss + "第" + (i + 1) + "个广播地址：" + i1 + "." + i2 + "." + (n + zu - 1) + "." + 255 + "\n";
+                n = n + zu;
             }
             info.setZiwangIP(sassve);
             info.setGuangpodizhi(sss);
-        }else if (numm >= 192 && numm < 224){
+        } else if (numm >= 192 && numm < 224) {
             info.setLiebie("类别：C类");
-            int hostnum = HostnumB(s1,s2,s3,s4);
-            int subnum = SubnetB(s1,s2,s3,s4);
-            int n=1;
+            int hostnum = HostnumB(s1, s2, s3, s4);
+            int subnum = SubnetB(s1, s2, s3, s4);
+            int n = 1;
             //定义一个字符串来保存所有信息
             String saasdve = "";
             String saaaa = "";
             for (int i = 0; i < subnum; i++) {
-                saasdve=saasdve+("第"+(i+1)+"个子网IP范围："+i1+"."+i2+"."+i3+"."+n+"~"+(n+hostnum-1))+"\n";
-                saaaa=saaaa+("第"+ (i+1)+"个广播地址是："+i1+"."+i2+"."+i3+"."+(n+hostnum))+"\n";
-                n = n+hostnum-1+3;
+                //c类，前三位固定，最后一位开始划分范围，比如划分四个子网，那第一个子网就是
+                //最小：00 000001    最大：00 111110
+                saasdve = saasdve + ("第" + (i + 1) + "个子网IP范围：" + i1 + "." + i2 + "." + i3 + "." + n + "~" + (n + hostnum - 1)) + "\n";
+                saaaa = saaaa + ("第" + (i + 1) + "个广播地址是：" + i1 + "." + i2 + "." + i3 + "." + (n + hostnum)) + "\n";
+                n = n + hostnum - 1 + 3;
             }
             info.setZiwangIP(saasdve);
             info.setGuangpodizhi(saaaa);
@@ -122,46 +129,48 @@ public class network extends BaseServlet {
     //将十进制数换成八位的二进制数(字符串)
     public String Eight(int num) {
         String a = Integer.toBinaryString(num);
-        while (a.length() < 8)
-        {
+        while (a.length() < 8) {
             a = '0' + a;
         }
         return a;
     }
+
     //将二进制数转换成十进制的数
-    public int Ten(String s){
+    public int Ten(String s) {
         int x = 0;
-        for(char c: s.toCharArray())
+        for (char c : s.toCharArray())
             x = x * 2 + (c == '1' ? 1 : 0);
         return x;
     }
+
     //子网数的计算
-    public  int SubnetB(String s1,String s2,String s3,String s4){
-        String aString =Eight(Integer.parseInt(s1))+Eight(Integer.parseInt(s2))+Eight(Integer.parseInt(s3))+Eight(Integer.parseInt(s4));
-        int num=0;
+    public int SubnetB(String s1, String s2, String s3, String s4) {
+        String aString = Eight(Integer.parseInt(s1)) + Eight(Integer.parseInt(s2)) + Eight(Integer.parseInt(s3)) + Eight(Integer.parseInt(s4));
+        int num = 0;
         for (int i = 0; i < aString.length(); i++) {
-            if (num < 9){
-                if (aString.charAt(i)=='1') {
+            if (num < 9) {
+                if (aString.charAt(i) == '1') {
                     num++;
                 }
-            }else {
+            } else {
                 num = 1;
-                if (aString.charAt(i)=='1') {
+                if (aString.charAt(i) == '1') {
                     num++;
                 }
             }
         }
-        return (int)(Math.pow(2, num));
+        return (int) (Math.pow(2, num));
     }
+
     //主机数的计算
-    public  int HostnumB(String s1,String s2,String s3,String s4){
-        String aString2 =Eight(Integer.parseInt(s1))+Eight(Integer.parseInt(s2))+Eight(Integer.parseInt(s3))+Eight(Integer.parseInt(s4));
+    public int HostnumB(String s1, String s2, String s3, String s4) {
+        String aString2 = Eight(Integer.parseInt(s1)) + Eight(Integer.parseInt(s2)) + Eight(Integer.parseInt(s3)) + Eight(Integer.parseInt(s4));
         int num2 = 0;
         for (int i = 0; i < aString2.length(); i++) {
-            if (aString2.charAt(i)=='1') {
+            if (aString2.charAt(i) == '1') {
                 num2++;
             }
         }
-        return (int)(Math.pow(2, 32-num2)-2);
+        return (int) (Math.pow(2, 32 - num2) - 2);
     }
 }
