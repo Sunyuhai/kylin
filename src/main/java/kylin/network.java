@@ -75,6 +75,7 @@ public class network extends BaseServlet {
             int zu = 256 / subnum;
             String save = "";
             String sa = "";
+
             for (int i = 0; i < subnum; i++) {
                 save = save + "第" + (i + 1) + "个子网IP范围：" + i1 + "." + n + "." + 0 + "." + 1 + "~" + i1 + "." + (n + zu - 1) + "." + 255 + "." + 254 + "\n";
                 sa = sa + "第" + (i + 1) + "个广播地址：" + i1 + "." + (n + zu - 1) + "." + 255 + "." + 255 + "\n";
@@ -86,6 +87,7 @@ public class network extends BaseServlet {
         } else if (numm > 127 && numm < 192) {
             info.setLiebie("类别：B类");
             int hostnum = HostnumB(s1, s2, s3, s4);
+
             int subnum = SubnetB(s1, s2, s3, s4);
             int n = 0;
             int zu = 256 / subnum;
